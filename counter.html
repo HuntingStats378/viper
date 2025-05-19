@@ -1,49 +1,67 @@
 <!DOCTYPE html>
-  <head>
-    <title>Counter</title>
-    <!--gets odometer and font-->
-    <link rel=stylesheet href="https://lcedit.com/odometer/odometer.css">
-    <script src="https://lcedit.com/odometer/odometer.js"></script>
-    <link href="https://fonts.googleapis.com/css?family=Roboto:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
-  <body>
-    <!--counter-->
-      <span id="count" class="odometer">0</span>
-  </body>
-    <style>
-      body {
-        background-color: "transparent";
-      }
+<html>
+<head>
+  <title>Counter</title>
 
-     #count {
-        font-size: 100px;
-        font-family: "Roboto";
-        font-weight: 700;
-       color: "black";
-      }
-    </style>
+  <!-- Load custom odometer stylesheet -->
+  <link rel="stylesheet" href="https://lcedit.com/odometer/odometer.css">
 
-        <script>
-          const params = new URLSearchParams(window.location.search); // gets url parameters
-          var id = params.get("id") || "UCX6OQ3DkcsbYNE6H8uQQuVA"; // gets id from url parameters and sets default id
-odometers = Odometer.init();
+  <!-- Load custom odometer JavaScript -->
+  <script src="https://lcedit.com/odometer/odometer.js"></script>
 
-          for (let i = 0; i < odometers.length; i++) { // selects odometer settings to all odometers
-    let odometers.options[i] = { // odometer settings
-        animation: ['default', 'byDigit', 'count', 'minimal'][0], // animation array, "[0]" at the end selects 'default' animation
-        downColor: "black",
-        duration: 2 * 1000, // animation duration in milliseconds, 2 x 1000 is 2000ms = 2s
-        removeLeadingZeros: true,
-        reverseAnimation: false,
-        format: ",ddd",
-        upColor: "black"
+  <!-- Load Roboto font from Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <!-- Odometer display element -->
+  <span id="count" class="odometer">0</span>
+</body>
+
+<style>
+  body {
+    background-color: "transparent"; /* Use transparent background (quotes not necessary here) */
+  }
+
+  #count {
+    font-size: 100px;               /* Large font size for visibility */
+    font-family: "Roboto";         /* Use the imported Roboto font */
+    font-weight: 700;              /* Bold weight */
+    color: black;                /* Text color */
+  }
+</style>
+
+<script>
+  // Parse URL parameters
+  const params = new URLSearchParams(window.location.search);
+
+  // Get the 'id' parameter from URL, fallback to default YouTube channel ID
+  var id = params.get("id") || "UCX6OQ3DkcsbYNE6H8uQQuVA";
+
+  // Initialize all custom odometers (from lcedit)
+  odometers = Odometer.init();
+
+  // Apply configuration to each odometer instance
+  for (let i = 0; i < odometers.length; i++) {
+    let odometers.options[i] = {
+      animation: ['default', 'byDigit', 'count', 'minimal'][0], // Choose 'default' animation
+      downColor: "black",        // Color when number decreases
+      duration: 2 * 1000,        // Animation duration: 2 seconds
+      removeLeadingZeros: true,  // Trim unnecessary zeros
+      reverseAnimation: false,   // Do not reverse animation
+      format: ",ddd",            // Comma-separation for thousands (e.g., 1,000)
+      upColor: "black"           // Color when number increases
     }
-          }
-          
-          setInterval(() => {
-            fetch(`https://ests.sctools.org/api/get/${id}`) // fetches api
-            .then((res) => res.json()) // converts response to json
-            .then((data) => {
-              document.getElementById("count").innerHTML = data.stats.estCount; // updates count
-            });
-          }, 2000); // interval in milliseconds, 2000ms = 2s
+  }
+
+  // Fetch and update the count every 2 seconds
+  setInterval(() => {
+    fetch(`https://ests.sctools.org/api/get/${id}`) // Call external API with the specified ID
+      .then((res) => res.json())                    // Parse response JSON
+      .then((data) => {
+        // Update the odometer display with the estimated count
+        document.getElementById("count").innerHTML = data.stats.estCount;
+      });
+  }, 2000); // Repeat every 2000 milliseconds (2 seconds)
 </script>
+</html>
