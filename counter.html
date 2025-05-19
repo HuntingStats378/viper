@@ -24,8 +24,20 @@
 
         <script>
           const params = new URLSearchParams(window.location.search); // gets url parameters
-          var id = params.get("id") || "UClOyuxZvQkoHoIn15kNbkUw"; // gets id from url parameters and sets default id
+          var id = params.get("id") || "UCX6OQ3DkcsbYNE6H8uQQuVA"; // gets id from url parameters and sets default id
+odometers = Odometer.init();
 
+          for (let i = 0; i < odometers.length; i++) { // selects odometer settings to all odometers
+    let odometers.options[i] = { // odometer settings
+        animation: ['default', 'byDigit', 'count', 'minimal'][0], // animation array, "[0]" at the end selects 'default' animation
+        downColor: "black",
+        duration: 2 * 1000, // animation duration in milliseconds, 2 x 1000 is 2000ms = 2s
+        removeLeadingZeros: true,
+        reverseAnimation: false,
+        format: ",ddd",
+        upColor: "black"
+    }
+          }
           
           setInterval(() => {
             fetch(`https://ests.sctools.org/api/get/${id}`) // fetches api
@@ -33,5 +45,5 @@
             .then((data) => {
               document.getElementById("count").innerHTML = data.stats.estCount; // updates count
             });
-          }, 2000); // interval in milliseconds
+          }, 2000); // interval in milliseconds, 2000ms = 2s
 </script>
