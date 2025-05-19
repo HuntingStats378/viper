@@ -1,10 +1,12 @@
 <!DOCTYPE html>
   <head>
     <title>Counter</title>
+    <!--gets odometer and font-->
     <link rel=stylesheet href="https://lcedit.com/odometer/odometer.css">
     <script src="https://lcedit.com/odometer/odometer.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
   <body>
+    <!--counter-->
       <span id="count" class="odometer">0</span>
   </body>
     <style>
@@ -21,15 +23,15 @@
     </style>
 
         <script>
-          const params = new URLSearchParams(window.location.search);
-          var id = params.get("id") || "UClOyuxZvQkoHoIn15kNbkUw";
+          const params = new URLSearchParams(window.location.search); // gets url parameters
+          var id = params.get("id") || "UClOyuxZvQkoHoIn15kNbkUw"; // gets id from url parameters and sets default id
 
           
           setInterval(() => {
-            fetch(`https://ests.sctools.org/api/get/${id}`)
-            .then((res) => res.json())
+            fetch(`https://ests.sctools.org/api/get/${id}`) // fetches api
+            .then((res) => res.json()) // converts response to json
             .then((data) => {
-              document.getElementById("count").innerHTML = data.stats.estCount;
+              document.getElementById("count").innerHTML = data.stats.estCount; // updates count
             });
-          }, 2000);
+          }, 2000); // interval in milliseconds
 </script>
